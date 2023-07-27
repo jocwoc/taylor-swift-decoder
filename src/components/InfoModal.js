@@ -31,15 +31,13 @@ export default function InfoModal({
         <p dangerouslySetInnerHTML={{ __html: ModalText }} />
         {/** CREDITS: Please do not edit this. Feel free to add your own credits to ModalText. */}
         <p style={{ fontSize: "14px" }}>
-          Made by&nbsp;<a href="http://shaynak.github.io">Shayna Kothari</a>
+          Made by jocwoc. 
+          Adapted from &nbsp;<a href="http://shaynak.github.io">Shayna Kothari</a>
           &nbsp;using&nbsp;
           <a href="http://reactjs.org">React</a>. Lyrics scraped from&nbsp;
           <a href="http://genius.com">Genius</a>&nbsp; using&nbsp;
           <a href="https://github.com/johnwmillr/LyricsGenius">LyricsGenius</a>.
-          If you have comments or suggestions, contact me by{" "}
-          <a href="mailto:shayna.kothari@berkeley.edu">email</a>!
         </p>
-        <p style={{ fontSize: "12px" }}>p.s. if you have thoughts on what I should do about the better than revenge lyric change... contact me</p>
       </div>
     </div>
   );
