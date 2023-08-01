@@ -84,7 +84,7 @@ function App(): React$MixedElement {
               navigate("/");
             }}
           >
-            {ArtistName} lyric searcher
+            {ArtistName} lyric decoder
           </span>
         </div>
       ) : (
@@ -94,12 +94,12 @@ function App(): React$MixedElement {
               mobile ? "title-text-mobile header" : "title-text header"
             }
           >
-            {ArtistName} <br /> lyric searcher
+            {ArtistName} <br /> lyric decoder
           </span>
         </div>
       )}
       {queries.length === 0 ? <div className="tips">
-          Taylor, if you're reading this, please play Mary's Song on 7/28
+          v1.0
         </div> : null}
       <InputBox
         submitHandler={searchHandler}

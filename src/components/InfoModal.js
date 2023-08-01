@@ -31,7 +31,7 @@ export default function InfoModal({
         <p dangerouslySetInnerHTML={{ __html: ModalText }} />
         {/** CREDITS: Please do not edit this. Feel free to add your own credits to ModalText. */}
         <p style={{ fontSize: "14px" }}>
-          Made by jocwoc. 
+          Test project made by jocwoc. 
           Adapted from &nbsp;<a href="http://shaynak.github.io">Shayna Kothari</a>
           &nbsp;using&nbsp;
           <a href="http://reactjs.org">React</a>. Lyrics scraped from&nbsp;

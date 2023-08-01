@@ -6,33 +6,27 @@ import React from "react";
 type SongLyricProps = {
   album: string,
   song: string,
-  prev: string,
   lyric: string,
-  next: string,
+  acronym: string,
   queries: Array<string>,
 };
 
 export default function SongLyric({
   album,
   song,
-  prev,
   lyric,
-  next,
+  acronym,
   queries,
 }: SongLyricProps): React$MixedElement {
   return (
     <div className="SongLyric">
       <p>
-        {prev}
-        {prev.length > 0 ? <br /> : ""}
         <span
           className="lyric"
           dangerouslySetInnerHTML={{
-            __html: boldQueries(lyric, queries),
+            __html: boldQueries(acronym, queries),
           }}
         />
-        {next.length > 0 ? <br /> : ""}
-        {next}
       </p>
       {song}
       {album !== "NaN" ? "," : ""} <i>{album !== "NaN" ? album : ""}</i>
