@@ -84,7 +84,7 @@ function App(): React$MixedElement {
               navigate("/");
             }}
           >
-            {ArtistName} lyric decoder
+            {ArtistName} lyric acronym decoder
           </span>
         </div>
       ) : (
@@ -94,12 +94,12 @@ function App(): React$MixedElement {
               mobile ? "title-text-mobile header" : "title-text header"
             }
           >
-            {ArtistName} <br /> lyric decoder
+            {ArtistName} <br /> lyric acronym decoder
           </span>
         </div>
       )}
       {queries.length === 0 ? <div className="tips">
-          v1.0
+          Enter a lyric acronym. For example: DBATC
         </div> : null}
       <InputBox
         submitHandler={searchHandler}

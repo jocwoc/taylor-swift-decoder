@@ -7,6 +7,7 @@ hr {
   height: calc(66% + 30px);
   position: absolute;
   overflow: auto;
+  overflow-wrap: break-word;
   margin-left: 20%;
   margin-right: 20%;
   margin-top: calc(6.5% + 40px);
@@ -17,6 +18,7 @@ hr {
   height: calc(70% + 30px);
   position: absolute;
   overflow: auto;
+  overflow-wrap: break-word;
   margin-left: 10%;
   margin-right: 10%;
   margin-top: calc(18% + 34px);
