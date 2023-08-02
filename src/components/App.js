@@ -12,7 +12,7 @@ import {
   getURLAlbumStrings,
   URL_QUERY_PARAM,
   URL_ALBUM_PARAM,
-  convertQueriesToPlurals,
+  // convertQueriesToPlurals,
 } from "./utils";
 import { ArtistName } from "./constants";
 import React, { useEffect, useState } from "react";
@@ -28,7 +28,7 @@ function App(): React$MixedElement {
   const [infoModal, setInfoModal] = useState<boolean>(false);
   const [filterModal, setFilterModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [includePlurals, setIncludePlurals] = useState<boolean>(true);
+  // const [includePlurals, setIncludePlurals] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -105,12 +105,13 @@ function App(): React$MixedElement {
         submitHandler={searchHandler}
         filterButtonHandler={filterButtonHandler}
         queryString={queries.join(", ")}
-        includePlurals={includePlurals}
-        setIncludePlurals={setIncludePlurals}
+        // includePlurals={includePlurals}
+        // setIncludePlurals={setIncludePlurals}
       />
       {queries.length > 0 ? (
         <QueriedLyrics
-          queries={includePlurals ? convertQueriesToPlurals(queries) : queries}
+          // queries={includePlurals ? convertQueriesToPlurals(queries) : queries}
+          queries={queries}
           selectedAlbums={albumFilters}
           isLoading={isLoading}
         />
