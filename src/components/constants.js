@@ -4,7 +4,7 @@ export const ArtistName = "taylor swift";
 export const ModalText =
   'Search for a lyric acronym and see all the potential Taylor Swift \
   lyrics it could match! To search for multiple acronyms, use \
-  a comma between them. Use a * for wildcard search. Scraped data can be found \
+  a comma between them. Use a _ to represent a single wildcard character. Scraped data can be found \
   <a href="https://github.com/shaynak/taylor-swift-lyrics">here</a>. \
   <br><br>Last updated: 8/1/23. First published 7/26/23.';
 

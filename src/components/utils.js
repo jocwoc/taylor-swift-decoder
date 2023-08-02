@@ -34,20 +34,19 @@ export const containsQuery = (lyric: string, query: string): QueryMatch => {
   query = query.replace(/\u00e9/g, "e");
   lyric = lyric.replace(/\u00e9/g, "e");
 
-  //const query_sections = query.split("*").map(escapeRegExp);
-  //const inner_regexp = query_sections.join("\\w*");
-  //const regex = new RegExp(
+  const query_sections = query.split("_").map(escapeRegExp);
+  const inner_regexp = query_sections.join("\\w");
+  // const regex = new RegExp(
   //  `([\\(\\)\\.\\-?!;:,\\s\u2026"]|^'*)${inner_regexp}('*[\\(\\)\\.\\-?!;:,\\s\u2026"]|$)`
-  //); 
-  //const match = cleanLyric(lyric.toUpperCase()).match(regex);
-  const match = cleanLyric(lyric.toUpperCase()).match(query)
+  // ); 
+  const match = cleanLyric(lyric.toUpperCase()).match(inner_regexp)
   // Adding length of the first capturing group (1 or 0) to `start` so it starts at word
   //const start = match != null ? match.index + match[1].length : -1;
   const start = match != null ? match.index: -1;
   // Subtracting capturing group lengths to make sure only length of word is sent
   // const length =
   //   match != null ? match[0].length - (match[1].length + match[2].length) : -1;
-  const length = match != null ? query.length : -1;
+  const length = match != null ? match[0].length : -1;
   return {
     start,
     length,
