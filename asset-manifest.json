@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/taylor-swift-decoder/static/css/main.95f19da8.css",
-    "main.js": "/taylor-swift-decoder/static/js/main.9d9cec75.js",
+    "main.js": "/taylor-swift-decoder/static/js/main.12f2543e.js",
     "index.html": "/taylor-swift-decoder/index.html",
     "main.95f19da8.css.map": "/taylor-swift-decoder/static/css/main.95f19da8.css.map",
-    "main.9d9cec75.js.map": "/taylor-swift-decoder/static/js/main.9d9cec75.js.map"
+    "main.12f2543e.js.map": "/taylor-swift-decoder/static/js/main.12f2543e.js.map"
   },
   "entrypoints": [
     "static/css/main.95f19da8.css",
-    "static/js/main.9d9cec75.js"
+    "static/js/main.12f2543e.js"
   ]
 }
