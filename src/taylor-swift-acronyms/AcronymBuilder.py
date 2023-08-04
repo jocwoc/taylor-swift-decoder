@@ -2,6 +2,7 @@ import pandas as pd
 import re
 import os
 import json
+import ast
 
 directory = os.path.dirname(os.path.dirname(__file__))
 
@@ -18,11 +19,14 @@ def lyrics_to_acronym():
         title, album, lyrics = song
         if title not in song_titles:
             song_titles.append(title)
-            lyric_acronym = get_acronym(lyrics)
+            if title == "ME!":
+                lyrics = lyrics.replace("[Bridge: Brendon Urie, Taylor Swift, Both]\nGirl, there ain't no \"I\" in \"team\"",
+                               "[Bridge: Brendon Urie, Taylor Swift, Both]\nHey, kids! Spelling is fun!\nGirl, there ain't no \"I\" in \"team\"")
+            lyric_acronym, lyric_array = get_acronym(lyrics)
             lyric_record = {
                 'Song': title,
                 'Album': album,
-                'Lyric': lyrics,
+                'Lyric': lyric_array,
                 'Acronym': lyric_acronym
                 }
             lyric_records.append(lyric_record)
@@ -32,16 +36,18 @@ def lyrics_to_acronym():
 def get_acronym(lyrics):
     lines = lyrics.split('\n')
     acronym = ''
+    words_array = []
     for i in range(len(lines)):
         curr_line = lines[i].strip()
         if curr_line:
             if curr_line[0] != '[' :
                 words = curr_line.split(' ')
                 for word in words:
-                    word = re.sub(r'[^\w]','',word)
-                    if word:                        
-                        acronym += word[0].upper()
-    return acronym
+                    word_alpha = re.sub(r'[^\w]','',word)
+                    if word_alpha:                        
+                        acronym += word_alpha[0].upper()
+                        words_array.append(word)
+    return acronym, words_array
 
 def acronyms_to_json():
     print('Generating acronyms JSON...')
@@ -56,8 +62,8 @@ def acronyms_to_json():
         if title not in song_dict[album]:
             song_dict[album][title] = []
         song_dict[album][title].append({
-            'lyric':
-            lyric,
+            'lyric': 
+            ast.literal_eval(lyric),
             'acronym':
             acronym,
         })

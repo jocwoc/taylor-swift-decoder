@@ -6,7 +6,7 @@ import React from "react";
 type SongLyricProps = {
   album: string,
   song: string,
-  lyric: string,
+  lyric: Array<string>,
   acronym: string,
   queries: Array<string>,
 };
@@ -24,7 +24,7 @@ export default function SongLyric({
         <span
           className="lyric"
           dangerouslySetInnerHTML={{
-            __html: boldQueries(acronym, queries),
+            __html: boldQueries(lyric, acronym, queries),
           }}
         />
       </p>

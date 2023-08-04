@@ -3,10 +3,10 @@
 
 // const PLURAL_EXCEPTIONS = ["hi", "die", "dice", "his", "a", "as"];
 
-type QueryMatch = {
-  start: number,
-  length: number,
-};
+// type QueryMatch = {
+//   start: number,
+//   length: number,
+// };
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
 const escapeRegExp = (str: string): string => {
@@ -25,52 +25,61 @@ export const cleanLyric = (lyric: string): string => {
   // Replace dashes with space and single hyphen
   cleaned_lyric = cleaned_lyric.replace(/\u2013|\u2014/g, " - ");
   // Replace cyrillic + accented Es with normal Es
-  cleaned_lyric = cleaned_lyric.replace(/\u0435/g, "e");
+  cleaned_lyric = cleaned_lyric.replace(/\u0435|\u00e9/g, "e");
   return cleaned_lyric;
 };
 
-export const containsQuery = (lyric: string, query: string): QueryMatch => {
+export const containsQuery = (acronym: string, query: string): Array => {
   query = cleanLyric(query.toUpperCase());
-  query = query.replace(/\u00e9/g, "e");
-  lyric = lyric.replace(/\u00e9/g, "e");
+  acronym = cleanLyric(acronym.toUpperCase());
+  // query = query.replace(/\u00e9/g, "e");
+  // acronym = acronym.replace(/\u00e9/g, "e");
+
+  let array1;
+  const matches = [];
 
   const query_sections = query.split("_").map(escapeRegExp);
   const inner_regexp = query_sections.join("\\w");
+  const regex = new RegExp(inner_regexp,'g')
   // const regex = new RegExp(
   //  `([\\(\\)\\.\\-?!;:,\\s\u2026"]|^'*)${inner_regexp}('*[\\(\\)\\.\\-?!;:,\\s\u2026"]|$)`
   // ); 
-  const match = cleanLyric(lyric.toUpperCase()).match(inner_regexp)
+  // const match = cleanLyric(acronym.toUpperCase()).match(inner_regexp)
+  while (array1 = regex.exec(acronym)){
+    matches.push([array1.index,query.length]);
+  }
+  // const match = cleanLyric(acronym.toUpperCase()).exec(inner_regexp)
   // Adding length of the first capturing group (1 or 0) to `start` so it starts at word
   //const start = match != null ? match.index + match[1].length : -1;
-  const start = match != null ? match.index: -1;
+  // const start = match != null ? match.index: -1;
   // Subtracting capturing group lengths to make sure only length of word is sent
   // const length =
   //   match != null ? match[0].length - (match[1].length + match[2].length) : -1;
-  const length = match != null ? match[0].length : -1;
-  return {
-    start,
-    length,
-  };
+  // const length = match != null ? match[0].length : -1;
+  // return {
+  //   matches,
+  // };
+  return matches;
 };
 
 export const getQueryLength = (query: string): number => {
   return query.replace("*", "").length;
 };
 
-export const queriesFound = (lyric: string, query: string): number => {
-  lyric = cleanLyric(lyric);
-  query = cleanLyric(query);
-  let found = 0;
-  do {
-    let { start, length } = containsQuery(lyric, query);
-    if (start === -1) {
-      return found;
-    }
-    found += 1;
-    lyric = lyric.substring(start + length);
-  } while (lyric.length > 0);
-  return found;
-};
+// export const queriesFound = (lyric: string, query: string): number => {
+//   lyric = cleanLyric(lyric);
+//   query = cleanLyric(query);
+//   let found = 0;
+//   do {
+//     let { start, length } = containsQuery(lyric, query);
+//     if (start === -1) {
+//       return found;
+//     }
+//     found += 1;
+//     lyric = lyric.substring(start + length);
+//   } while (lyric.length > 0);
+//   return found;
+// };
 
 export const isMobile = (): boolean => {
   const mobileRegex = new RegExp(
@@ -79,30 +88,59 @@ export const isMobile = (): boolean => {
   return navigator.userAgent.search(mobileRegex) >= 0;
 };
 
-export const boldQueries = (lyric: string, queries: Array<string>): string => {
-  lyric = cleanLyric(lyric);
-  return queries.reduce(boldQuery, lyric);
+export const boldQueries = (lyric: Array<string>, acronym: string, queries: Array<string>): string => {
+  acronym = cleanLyric(acronym);
+  let matches = [];
+  let boldedLyric = "";
+  queries.forEach( (query) => {
+    matches = matches.concat(containsQuery(acronym,query));
+    }
+  )
+  boldedLyric = matches.sort ((a, b) => {
+    return a[0] - b[0];            
+  })
+  .map ((match) => {
+    return boldQuery(lyric,match);
+  })
+  .join("\<br\>");
+  // return queries.reduce(boldQuery, lyric);
+  return boldedLyric
 };
 
-export const boldQuery = (lyric: string, query: string): string => {
-  query = cleanLyric(query);
-  let end: number;
+export const boldQuery = (lyric: Array<string>, match_index: Array<number>): string => {
+  // query = cleanLyric(query);
+  // let end: number;
+  const start = match_index[0];
+  const end = match_index[0] + match_index[1];
   let boldedLyric = "";
-  do {
-    let { start, length } = containsQuery(lyric, query);
-    if (start === -1) {
-      return boldedLyric + lyric;
-    }
-    end = start + length;
 
-    boldedLyric =
-      boldedLyric +
-      lyric.substring(0, start) +
-      '<span class="query">' +
-      lyric.substring(start, end) +
-      "</span>";
-    lyric = lyric.substring(end);
-  } while (lyric.length > 0);
+  boldedLyric =
+    boldedLyric +
+    (start<4 ? 
+      lyric.slice(0,start).join(" ") 
+      : "..." + lyric.slice(start-3,start).join(" ") ) + " " +
+    '<span class="query">' +
+    lyric.slice(start, end).join(" ") + " " +
+    "</span>" + 
+    lyric.slice(end,end+3).join(" ") + " " +
+    (end+3 > lyric.length ? "" : "...");
+
+  // do {
+  //   let { start, length } = containsQuery(acronym, query);
+  //   if (start === -1) {
+  //     return boldedLyric + lyric;
+  //   }
+  //   end = start + length;
+
+  //   boldedLyric =
+  //     boldedLyric +
+  //     lyric.slice(start-5, start).join(" ") +
+  //     '<span class="query">' +
+  //     lyric.slice(start, end+1).join(" ") +
+  //     "</span>" + 
+  //     lyric.slice(end+1,end+5).join(" ");
+  //   lyric = lyric.substring(end);
+  // } while (lyric.length > 0);
   return boldedLyric;
 };
 

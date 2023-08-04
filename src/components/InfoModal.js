@@ -39,7 +39,7 @@ export default function InfoModal({
           <a href="http://genius.com">Genius</a>&nbsp;using&nbsp;
           <a href="https://github.com/johnwmillr/LyricsGenius">LyricsGenius</a>.
         </p>
-        <p style={{ fontSize: "12px" }}>p.s. data is notably missing "HKSIF" from ME!</p>
+        {/* <p style={{ fontSize: "12px" }}>p.s. data is notably missing "HKSIF" from ME!</p> */}
       </div>
     </div>
   );

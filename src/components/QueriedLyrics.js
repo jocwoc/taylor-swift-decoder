@@ -76,12 +76,12 @@ export default function QueriedLyrics({
                   console.log(song);
                 console.log(album);
                 }
-                counter++;                              
+                counter++;                             
                 if (
                   isSelectedAlbum(album) &&
                   queries.some(
                     (query) =>
-                      containsQuery(songAcronym.acronym, query)["start"] >= 0
+                      containsQuery(songAcronym.acronym, query).length !== 0
                   ) &&
                   album !== "Uncategorized"
                 ) {
