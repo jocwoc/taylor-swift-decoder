@@ -1,12 +1,5 @@
 // @flow
-// import pluralize from "pluralize";
 
-// const PLURAL_EXCEPTIONS = ["hi", "die", "dice", "his", "a", "as"];
-
-// type QueryMatch = {
-//   start: number,
-//   length: number,
-// };
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
 const escapeRegExp = (str: string): string => {
@@ -66,20 +59,13 @@ export const getQueryLength = (query: string): number => {
   return query.replace("*", "").length;
 };
 
-// export const queriesFound = (lyric: string, query: string): number => {
-//   lyric = cleanLyric(lyric);
-//   query = cleanLyric(query);
-//   let found = 0;
-//   do {
-//     let { start, length } = containsQuery(lyric, query);
-//     if (start === -1) {
-//       return found;
-//     }
-//     found += 1;
-//     lyric = lyric.substring(start + length);
-//   } while (lyric.length > 0);
-//   return found;
-// };
+export const queriesFound = (acronym: string, query: string): number => {
+  acronym = cleanLyric(acronym);
+  query = cleanLyric(query);
+
+  const matches = containsQuery(acronym,query)
+  return matches.length;
+};
 
 export const isMobile = (): boolean => {
   const mobileRegex = new RegExp(
@@ -109,7 +95,6 @@ export const boldQueries = (lyric: Array<string>, acronym: string, queries: Arra
 
 export const boldQuery = (lyric: Array<string>, match_index: Array<number>): string => {
   // query = cleanLyric(query);
-  // let end: number;
   const start = match_index[0];
   const end = match_index[0] + match_index[1];
   let boldedLyric = "";
@@ -120,8 +105,12 @@ export const boldQuery = (lyric: Array<string>, match_index: Array<number>): str
       lyric.slice(0,start).join(" ") 
       : "..." + lyric.slice(start-3,start).join(" ") ) + " " +
     '<span class="query">' +
-    lyric.slice(start, end).join(" ") + " " +
-    "</span>" + 
+    lyric.slice(start, end)
+    .map((word) => {
+      return word.replace(/[a-zA-Z0-9]/,'<span class="initial">$&</span>')
+    })
+    .join(" ") + 
+    "</span>" + " " +
     lyric.slice(end,end+3).join(" ") + " " +
     (end+3 > lyric.length ? "" : "...");
 
@@ -156,16 +145,3 @@ export const getURLAlbumStrings = (): Array<string> => {
   const currentURL = new URL(window.location);
   return currentURL.searchParams.getAll(URL_ALBUM_PARAM);
 };
-
-// export const convertQueriesToPlurals = (
-//   queries: Array<string>
-// ): Array<string> => {
-//   return queries.flatMap((query) => {
-//     const pluralized = pluralize.plural(query);
-//     const singularized = pluralize.singular(query);
-//     if (pluralized === singularized || PLURAL_EXCEPTIONS.includes(query)) {
-//       return [query];
-//     }
-//     return [pluralized, singularized];
-//   });
-// };

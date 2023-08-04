@@ -31,7 +31,7 @@ export default function InfoModal({
         <p dangerouslySetInnerHTML={{ __html: ModalText }} />
         {/** CREDITS: Please do not edit this. Feel free to add your own credits to ModalText. */}
         <p style={{ fontSize: "14px" }}>
-          Test project made by jocwoc. 
+          Made by jocwoc. 
           Adapted from <a href="https://shaynak.github.io/taylor-swift">Taylor Swift Lyric Searcher</a>
           &nbsp;made by&nbsp;<a href="http://shaynak.github.io">Shayna Kothari</a>
           &nbsp;using&nbsp;
@@ -39,7 +39,7 @@ export default function InfoModal({
           <a href="http://genius.com">Genius</a>&nbsp;using&nbsp;
           <a href="https://github.com/johnwmillr/LyricsGenius">LyricsGenius</a>.
         </p>
-        {/* <p style={{ fontSize: "12px" }}>p.s. data is notably missing "HKSIF" from ME!</p> */}
+        {/* <p style={{ fontSize: "12px" }}>p.s. scraped data is notably missing "HKSIF" from ME!</p> */}
       </div>
     </div>
   );

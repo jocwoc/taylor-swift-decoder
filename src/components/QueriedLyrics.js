@@ -2,11 +2,9 @@
 import "../style/QueriedLyrics.css";
 import React from "react";
 import SongLyric from "./SongLyric";
-import { containsQuery, isMobile} from "./utils.js";
-// import { containsQuery, isMobile, queriesFound } from "./utils.js";
+import { containsQuery, isMobile, queriesFound } from "./utils.js";
 
 const acronymsJSON = require("../taylor-swift-acronyms/acronyms.json")
-// const lyricsJSON = require("../taylor-swift-lyrics/lyrics.json");
 const albumMap = require("../taylor-swift-lyrics/album_map.json");
 const mobile = isMobile();
 type QueriedLyricsProps = {
@@ -33,29 +31,29 @@ export default function QueriedLyrics({
     return false;
   };
 
-  // const countOccurrences = (): { occurrences: number, songs: number } => {
-  //   let found = 0;
-  //   let songs = 0;
-  //   for (const query of queries) {
-  //     for (const album in lyricsJSON) {
-  //       if (album !== "Uncategorized" && isSelectedAlbum(album)) {
-  //         for (const song in lyricsJSON[album]) {
-  //           let foundInSong = false;
-  //           for (let i = 0; i < lyricsJSON[album][song].length; i++) {
-  //             const songLyric = lyricsJSON[album][song][i];
-  //             const timesFound = queriesFound(songLyric.lyric, query);
-  //             found += songLyric.multiplicity * timesFound;
-  //             foundInSong = foundInSong || timesFound > 0;
-  //           }
-  //           songs += foundInSong ? 1 : 0;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return { occurrences: found, songs: songs };
-  // };
+  const countOccurrences = (): { occurrences: number, songs: number } => {
+    let found = 0;
+    let songs = 0;
+    for (const query of queries) {
+      for (const album in acronymsJSON) {
+        if (album !== "Uncategorized" && isSelectedAlbum(album)) {
+          for (const song in acronymsJSON[album]) {
+            let foundInSong = false;
+            for (let i = 0; i < acronymsJSON[album][song].length; i++) {
+              const songAcronym = acronymsJSON[album][song][i];
+              const timesFound = queriesFound(songAcronym.acronym, query);
+              found += timesFound;
+              foundInSong = foundInSong || timesFound > 0;
+            }
+            songs += foundInSong ? 1 : 0;
+          }
+        }
+      }
+    }
+    return { occurrences: found, songs: songs };
+  };
 
-  //const { occurrences, songs } = countOccurrences();
+  const { occurrences, songs } = countOccurrences();
   let counter = 0;
   return (
     <div>
@@ -106,11 +104,11 @@ export default function QueriedLyrics({
             )
           )}
       </div>
-      {/* <div className={mobile ? "totalResults-mobile" : "totalResults"}>
+      <div className={mobile ? "totalResults-mobile" : "totalResults"}>
         Found {occurrences} usage{occurrences === 1 ? "" : "s"} in {songs} song
         {songs === 1 ? "" : "s"}
         {selectedAlbums.length > 0 ? " from selected albums" : ""}
-      </div> */}
+      </div>
     </div>
   );
 }
